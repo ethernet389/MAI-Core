@@ -1,12 +1,13 @@
 plugins {
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.serialization") version "1.9.10"
-    id("maven-publish")
+    id("java") apply true
+    id("maven-publish") apply true
     application
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "com.github.ethernet389"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -37,15 +38,20 @@ application {
     mainClass.set("math.MainKt")
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "cm.github.ethernet389"
             artifactId = "MAI-Core"
-            version = "1.0.1"
+            version = "1.0.0 "
 
             afterEvaluate {
-                from(components["release"])
+                from(components["java"])
             }
         }
     }
