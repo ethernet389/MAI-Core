@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.serialization") version "1.9.10"
+    id("maven-publish")
     application
 }
 
@@ -34,4 +35,18 @@ kotlin {
 
 application {
     mainClass.set("math.MainKt")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "cm.github.ethernet389"
+            artifactId = "MAI-Core"
+            version = "1.0.1"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
