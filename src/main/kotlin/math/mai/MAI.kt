@@ -1,15 +1,15 @@
 package math.mai
 
-import math.matrix_extensions.normalized
 import math.matrix_extensions.relativeWeights
 
 fun MAI(inputParameters: InputParameters): FinalWeights {
-    val criteriaMatrix = inputParameters.criteriaMatrix.value.normalized
-    val candidatesMatrix = inputParameters.candidatesMatrix.map { it.value.normalized }
+    val criteriaMatrix = inputParameters.criteriaMatrix.value
+    val candidatesMatrix = inputParameters.candidatesMatrix.map { it.value }
     val numAlt = candidatesMatrix.first().columnDimension
 
     val listOfWeights = mutableListOf<MutableList<Double>>()
     for (e in candidatesMatrix) listOfWeights.add(e.relativeWeights.toMutableList())
+    val retListOfWeights = listOfWeights.map { it.toList() }
 
     val perWeights = criteriaMatrix.relativeWeights
     for (i in perWeights.indices) {
@@ -21,5 +21,5 @@ fun MAI(inputParameters: InputParameters): FinalWeights {
         for (j in 0..<numAlt) result[j] += listOfWeights[i][j]
     }
 
-    return FinalWeights(relativeWeights = listOfWeights, finalRelativeWeights = result)
+    return FinalWeights(relativeWeights = retListOfWeights, finalRelativeWeights = result)
 }
